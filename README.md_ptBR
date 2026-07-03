@@ -1,0 +1,204 @@
+# png2chr
+
+Uma ferramenta em Python para análise e conversão de sprite sheets em PNG para o formato CHR utilizado pelo Nintendo Entertainment System (NES).
+
+O projeto nasceu para facilitar o desenvolvimento homebrew para NES, oferecendo um fluxo simples para validar sprites, identificar problemas de paleta e gerar arquivos CHR compatíveis com o hardware do console.
+
+> **Status:** Em desenvolvimento 🚧
+
+---
+
+# Funcionalidades
+
+- Conversão de PNG para CHR
+- Leitura de sprite sheets
+- Geração de tiles no formato nativo do NES
+- Validação de dimensões (múltiplos de 8)
+- Suporte a transparência
+- Análise de cores por tile
+- Análise completa da imagem antes da conversão
+- Sugestão automática de paleta
+- Geração automática de paleta global quando possível
+- Suporte a paleta global personalizada
+- Substituição de cores durante a conversão (`--replace`)
+- Geração de imagens de debug dos tiles problemáticos
+- Geração de mapa destacando todos os tiles problemáticos
+- Padding automático do CHR (4K, 8K, 16K ou tamanho personalizado)
+- Internacionalização (Português e Inglês)
+
+---
+
+# Requisitos
+
+- Python 3.9+
+- Pillow
+
+Instalação:
+
+```bash
+pip install pillow
+```
+
+---
+
+# Estrutura do projeto
+
+```
+png2chr/
+├── locales/
+│   ├── en.json
+│   └── pt_BR.json
+├── analyzer.py
+├── chr_writer.py
+├── debug_tools.py
+├── i18n.py
+├── image_tools.py
+├── palette_tools.py
+└── png2chr.py
+```
+
+---
+
+# Analisando uma imagem
+
+Antes da conversão é possível verificar se a imagem está adequada para o NES.
+
+```bash
+python3 png2chr.py analyze player.png
+```
+
+A análise informa:
+
+- dimensões da imagem;
+- quantidade de tiles;
+- cores encontradas;
+- sugestão de paleta;
+- tiles problemáticos.
+
+Caso existam problemas, a ferramenta gera um mapa indicando exatamente quais tiles precisam ser corrigidos.
+
+Também é possível gerar uma imagem ampliada do primeiro tile problemático:
+
+```bash
+python3 png2chr.py analyze player.png --debug
+```
+
+---
+
+# Convertendo para CHR
+
+Conversão simples:
+
+```bash
+python3 png2chr.py convert player.png player.chr
+```
+
+Caso a imagem utilize até quatro cores, uma paleta global é criada automaticamente, garantindo índices consistentes entre todos os tiles.
+
+---
+
+# Utilizando uma paleta fixa
+
+Também é possível definir manualmente a paleta utilizada na conversão.
+
+```bash
+python3 png2chr.py convert player.png player.chr \
+    --palette "0,0,0,0;0,0,0,255;248,56,0,255;252,224,168,255"
+```
+
+---
+
+# Substituindo cores
+
+Permite adaptar sprites ao limite de cores do NES sem editar a imagem original.
+
+```bash
+python3 png2chr.py convert player.png player.chr \
+    --replace "63,63,116,255=0,0,0,255"
+```
+
+É possível utilizar múltiplas opções `--replace`.
+
+---
+
+# Padding automático do CHR
+
+Para facilitar a utilização com `ca65`/`ld65`, a ferramenta pode completar automaticamente o arquivo CHR até um tamanho específico.
+
+Exemplo:
+
+```bash
+python3 png2chr.py convert player.png player.chr --pad 8k
+```
+
+Também são aceitos:
+
+```
+4k
+8k
+16k
+4096
+8192
+16384
+```
+
+---
+
+# Idiomas
+
+A ferramenta detecta automaticamente o idioma do sistema operacional.
+
+Também é possível escolher manualmente:
+
+```bash
+python3 png2chr.py --lang pt_BR analyze player.png
+
+python3 png2chr.py --lang en convert player.png player.chr
+```
+
+Caso o idioma solicitado não exista, o inglês é utilizado como padrão.
+
+---
+
+# Formato CHR
+
+Cada tile possui 8×8 pixels.
+
+Cada tile ocupa 16 bytes:
+
+```
+8 bytes -> bitplane 0
+8 bytes -> bitplane 1
+```
+
+Compatível com o formato utilizado pelo Nintendo Entertainment System.
+
+---
+
+# Roadmap
+
+Funcionalidades planejadas:
+
+- [ ] Remoção automática de tiles duplicados
+- [ ] Preview do CHR gerado
+- [ ] Exportação de índice dos tiles
+- [ ] Geração automática de arquivo `.asm`
+- [ ] Crop da sprite sheet
+- [ ] Suporte a múltiplas paletas de sprite
+- [ ] Interface gráfica
+- [ ] Exportação de metadados para uso em jogos
+- [ ] Geração de preview da nametable
+
+---
+
+# Motivação
+
+Grande parte das ferramentas disponíveis para manipulação de CHR é antiga, depende de Wine ou possui um fluxo de trabalho pouco prático.
+
+O objetivo deste projeto é oferecer uma ferramenta moderna, simples e multiplataforma para facilitar o desenvolvimento de jogos para NES utilizando Assembly 6502.
+
+---
+
+# Licença
+
+MIT
