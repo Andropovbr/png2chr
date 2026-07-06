@@ -1,0 +1,45 @@
+# Changelog
+
+Todas as mudanças relevantes deste projeto serão documentadas nesta seção.
+
+O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e este projeto segue o Versionamento Semântico (SemVer).
+
+---
+
+## [1.1.0] - 2026-07-06
+
+### Adicionado
+
+- Internacionalização da interface (Português e Inglês)
+- Detecção automática do idioma do sistema operacional
+- Opção `--lang` para seleção manual do idioma
+- Geração automática de paleta global quando a imagem possui até quatro cores
+- Opção `--pad` para completar automaticamente arquivos CHR (4K, 8K, 16K ou tamanho personalizado)
+- Opção `--dedupe` para remover tiles duplicados
+- Opção `--tile-map` para exportar o remapeamento de índices dos tiles
+- Geração de mapa de debug destacando todos os tiles problemáticos
+- Geração de imagem ampliada do primeiro tile problemático
+- Estrutura modular preparada para futuras expansões
+
+### Melhorado
+
+- Consistência dos índices de cores entre todos os tiles
+- Organização interna do projeto
+- Mensagens de erro e validações
+- Documentação e README
+
+---
+
+## [1.0.0] - 2026-07-05
+
+### Adicionado
+
+- Primeira versão pública
+- Conversão de PNG para CHR
+- Validação de dimensões da imagem
+- Análise de cores por tile
+- Sugestão automática de paleta
+- Suporte a paleta global
+- Substituição de cores (`--replace`)
+- Geração de imagens de debug
+- Conversão compatível com o formato CHR do Nintendo Entertainment System
