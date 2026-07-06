@@ -11,7 +11,15 @@ from analyzer import (
     suggest_palette,
 )
 from debug_tools import save_debug_tile, save_debug_map
-from chr_writer import convert_image_to_chr, save_chr, parse_pad_size, pad_chr_data
+
+from chr_writer import (
+    convert_image_to_chr,
+    save_chr,
+    parse_pad_size,
+    pad_chr_data,
+    dedupe_chr_data,
+    save_tile_map,
+)
 
 
 def print_colors(colors, counts=None):
@@ -134,6 +142,15 @@ def command_convert(args):
 
     chr_data = convert_image_to_chr(image, replacements, palette)
 
+    removed_tiles = 0
+    tile_map = None
+
+    if args.dedupe:
+        chr_data, tile_map, removed_tiles = dedupe_chr_data(chr_data)
+
+        if args.tile_map:
+            save_tile_map(args.tile_map, tile_map)
+
     padding_added = 0
 
     if args.pad:
@@ -148,6 +165,12 @@ def command_convert(args):
     print(t("image_size", width=width, height=height))
     print(t("tiles_generated", count=get_tile_count(image)))
     print(t("chr_size", size=len(chr_data)))
+
+    if args.dedupe:
+        print(t("dedupe_removed", count=removed_tiles))
+
+    if args.tile_map:
+        print(t("tile_map_saved", filename=args.tile_map))
 
     if args.pad:
         print(t("padding_added", size=padding_added))
@@ -212,6 +235,15 @@ def build_parser():
     convert.add_argument(
         "--pad",
         help=t("arg_pad_help")
+    )
+    convert.add_argument(
+        "--dedupe",
+        action="store_true",
+        help=t("arg_dedupe_help")
+    )   
+    convert.add_argument(
+        "--tile-map",
+        help=t("arg_tile_map_help")
     )
 
     return parser

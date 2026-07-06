@@ -41,5 +41,9 @@
     "error_too_many_global_colors": "The image has {count} colors in total. Provide a palette with --palette or use --replace to reduce it.",
     "error": "Error",
     "arg_pad_help": "Pads CHR with zero bytes up to the given size. Examples: 8k, 8192",
-    "padding_added": "Padding bytes added: {size}"
+    "padding_added": "Padding bytes added: {size}",
+    "arg_dedupe_help": "Removes exactly identical tiles before saving the CHR.",
+    "arg_tile_map_help": "Saves a tile remapping file. Example: tile_map.txt",
+    "dedupe_removed": "Duplicate tiles removed: {count}",
+    "tile_map_saved": "Tile map saved to: {filename}"
 }

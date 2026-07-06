@@ -41,5 +41,9 @@
     "error_too_many_global_colors": "A imagem tem {count} cores no total. Informe uma paleta com --palette ou use --replace para reduzir.",
     "error": "Erro",
     "arg_pad_help": "Preenche o CHR com zeros até o tamanho informado. Exemplos: 8k, 8192",
-    "padding_added": "Bytes adicionados no padding: {size}"
+    "padding_added": "Bytes adicionados no padding: {size}",
+    "arg_dedupe_help": "Remove tiles exatamente iguais antes de salvar o CHR.",
+    "arg_tile_map_help": "Salva um mapa de remapeamento dos tiles. Exemplo: tile_map.txt",
+    "dedupe_removed": "Tiles duplicados removidos: {count}",
+    "tile_map_saved": "Mapa de tiles salvo em: {filename}"
 }

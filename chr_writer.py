@@ -90,3 +90,42 @@ def pad_chr_data(chr_data, target_size):
 def save_chr(path, chr_data):
     with open(path, "wb") as file:
         file.write(chr_data)
+
+def split_chr_tiles(chr_data):
+    tiles = []
+
+    for i in range(0, len(chr_data), 16):
+        tiles.append(bytes(chr_data[i:i + 16]))
+
+    return tiles
+
+
+def dedupe_chr_data(chr_data):
+    tiles = split_chr_tiles(chr_data)
+
+    unique_tiles = []
+    tile_map = {}
+
+    for old_index, tile in enumerate(tiles):
+        if tile in unique_tiles:
+            new_index = unique_tiles.index(tile)
+        else:
+            unique_tiles.append(tile)
+            new_index = len(unique_tiles) - 1
+
+        tile_map[old_index] = new_index
+
+    deduped_data = bytearray()
+
+    for tile in unique_tiles:
+        deduped_data.extend(tile)
+
+    removed_count = len(tiles) - len(unique_tiles)
+
+    return deduped_data, tile_map, removed_count
+
+
+def save_tile_map(path, tile_map):
+    with open(path, "w", encoding="utf-8") as file:
+        for old_index, new_index in tile_map.items():
+            file.write(f"{old_index}={new_index}\n")
