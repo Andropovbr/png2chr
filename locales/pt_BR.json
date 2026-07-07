@@ -45,5 +45,20 @@
     "arg_dedupe_help": "Remove tiles exatamente iguais antes de salvar o CHR.",
     "arg_tile_map_help": "Salva um mapa de remapeamento dos tiles. Exemplo: tile_map.txt",
     "dedupe_removed": "Tiles duplicados removidos: {count}",
-    "tile_map_saved": "Mapa de tiles salvo em: {filename}"
+    "tile_map_saved": "Mapa de tiles salvo em: {filename}",
+    "arg_analyze_description": "Analisa uma imagem PNG antes da conversão para CHR. Mostra dimensões, quantidade de tiles, cores encontradas, paleta sugerida e tiles problemáticos.",
+    "arg_convert_description": "Converte uma imagem PNG para o formato CHR do NES. Pode usar paleta automática, paleta fixa, substituição de cores, remoção de tiles duplicados e padding.",
+
+    "help_commands_title": "comandos",
+    "help_commands_description": "Comandos disponíveis",
+
+    "help_examples_title": "Exemplos",
+    "help_example_analyze": "Analisar uma imagem",
+    "help_example_analyze_debug": "Analisar e gerar debug visual",
+    "help_example_convert": "Converter PNG para CHR",
+    "help_example_convert_pad": "Converter e completar o CHR para 8 KB",
+    "help_example_palette": "Converter usando paleta fixa",
+    "help_example_replace": "Substituir uma cor durante a conversão",
+    "help_example_dedupe": "Remover tiles duplicados e salvar mapa de remapeamento",
+    "help_example_lang": "Forçar idioma da interface"
 }

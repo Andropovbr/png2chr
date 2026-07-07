@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import textwrap
 
 from i18n import load_language, t
 from image_tools import load_image, validate_image_size, get_tile_count
@@ -181,8 +182,45 @@ def command_convert(args):
 
 
 def build_parser():
+    description = t("arg_description")
+
+    epilog = textwrap.dedent(
+        f"""
+        {t("help_examples_title")}:
+
+          {t("help_example_analyze")}:
+            python3 png2chr.py analyze player.png
+
+          {t("help_example_analyze_debug")}:
+            python3 png2chr.py analyze player.png --debug
+
+          {t("help_example_convert")}:
+            python3 png2chr.py convert player.png player.chr
+
+          {t("help_example_convert_pad")}:
+            python3 png2chr.py convert player.png player.chr --pad 8k
+
+          {t("help_example_palette")}:
+            python3 png2chr.py convert player.png player.chr \\
+              --palette "0,0,0,0;0,0,0,255;248,56,0,255;252,224,168,255"
+
+          {t("help_example_replace")}:
+            python3 png2chr.py convert player.png player.chr \\
+              --replace "63,63,116,255=0,0,0,255"
+
+          {t("help_example_dedupe")}:
+            python3 png2chr.py convert player.png player.chr \\
+              --dedupe --tile-map player_tile_map.txt
+
+          {t("help_example_lang")}:
+            python3 png2chr.py --lang en analyze player.png
+        """
+    )
+
     parser = argparse.ArgumentParser(
-        description=t("arg_description")
+        description=description,
+        epilog=epilog,
+        formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
     parser.add_argument(
@@ -190,11 +228,18 @@ def build_parser():
         help=t("arg_lang_help")
     )
 
-    subparsers = parser.add_subparsers(dest="command", required=True)
+    subparsers = parser.add_subparsers(
+        dest="command",
+        required=True,
+        title=t("help_commands_title"),
+        description=t("help_commands_description")
+    )
 
     analyze = subparsers.add_parser(
         "analyze",
-        help=t("arg_analyze_help")
+        help=t("arg_analyze_help"),
+        description=t("arg_analyze_description"),
+        formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
     analyze.add_argument("input", help=t("arg_input_help"))
@@ -212,7 +257,9 @@ def build_parser():
 
     convert = subparsers.add_parser(
         "convert",
-        help=t("arg_convert_help")
+        help=t("arg_convert_help"),
+        description=t("arg_convert_description"),
+        formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
     convert.add_argument("input", help=t("arg_input_help"))
@@ -240,7 +287,7 @@ def build_parser():
         "--dedupe",
         action="store_true",
         help=t("arg_dedupe_help")
-    )   
+    )
     convert.add_argument(
         "--tile-map",
         help=t("arg_tile_map_help")
