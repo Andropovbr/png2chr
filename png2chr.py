@@ -6,6 +6,8 @@ import textwrap
 from i18n import load_language, t
 from image_tools import load_image, validate_image_size, get_tile_count
 from palette_tools import parse_palette, build_replacements
+from version import __version__
+
 from analyzer import (
     collect_image_colors,
     analyze_tiles,
@@ -20,6 +22,7 @@ from chr_writer import (
     pad_chr_data,
     dedupe_chr_data,
     save_tile_map,
+    concat_chr_files,
 )
 
 
@@ -218,7 +221,7 @@ def build_parser():
     )
 
     parser = argparse.ArgumentParser(
-        description=description,
+        description=f"{t('arg_description')} ({__version__})",
         epilog=epilog,
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
@@ -226,6 +229,16 @@ def build_parser():
     parser.add_argument(
         "--lang",
         help=t("arg_lang_help")
+    )
+
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=(
+            f"%(prog)s {__version__}\n"
+            "Copyright (c) 2026 André Santos\n"
+            "Licensed under the MIT License."
+        )
     )
 
     subparsers = parser.add_subparsers(
@@ -293,8 +306,81 @@ def build_parser():
         help=t("arg_tile_map_help")
     )
 
+    concat = subparsers.add_parser(
+        "concat",
+        help=t("arg_concat_help"),
+        description=t("arg_concat_description"),
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+
+    concat.add_argument(
+        "files",
+        nargs="+",
+        help=t("arg_concat_files_help")
+    )
+
+    concat.add_argument(
+        "--pad",
+        help=t("arg_pad_help")
+    )
+
+    concat.add_argument(
+        "--dedupe",
+        action="store_true",
+        help=t("arg_dedupe_help")
+    )
+
+    concat.add_argument(
+        "--tile-map",
+        help=t("arg_tile_map_help")
+    )
+
     return parser
 
+
+def command_concat(args):
+    if len(args.files) < 2:
+        raise ValueError(t("error_concat_min_files"))
+
+    input_files = args.files[:-1]
+    output_file = args.files[-1]
+
+    chr_data = concat_chr_files(input_files)
+
+    original_tile_count = len(chr_data) // 16
+
+    removed_tiles = 0
+    tile_map = None
+
+    if args.dedupe:
+        chr_data, tile_map, removed_tiles = dedupe_chr_data(chr_data)
+
+        if args.tile_map:
+            save_tile_map(args.tile_map, tile_map)
+
+    padding_added = 0
+
+    if args.pad:
+        pad_size = parse_pad_size(args.pad)
+        padding_added = pad_chr_data(chr_data, pad_size)
+
+    save_chr(output_file, chr_data)
+
+    print(t("concat_completed"))
+    print(t("input_files_count", count=len(input_files)))
+    print(t("tiles_input", count=original_tile_count))
+    print(t("chr_size", size=len(chr_data)))
+
+    if args.dedupe:
+        print(t("dedupe_removed", count=removed_tiles))
+
+        if args.tile_map:
+            print(t("tile_map_saved", filename=args.tile_map))
+
+    if args.pad:
+        print(t("padding_added", size=padding_added))
+
+    print(t("output_file", filename=output_file))
 
 def main():
     pre_parser = argparse.ArgumentParser(add_help=False)
@@ -312,6 +398,8 @@ def main():
             command_analyze(args)
         elif args.command == "convert":
             command_convert(args)
+        elif args.command == "concat":
+            command_concat(args)
 
     except Exception as error:
         print(f"{t('error')}: {error}")

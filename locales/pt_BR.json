@@ -9,18 +9,15 @@
     "no_problems": "Nenhum problema encontrado considerando o limite de 4 cores por tile.",
     "debug_map_saved": "Mapa de debug salvo em: {filename}",
     "debug_tile_saved": "Primeiro tile problemático salvo em: {filename}",
-
     "conversion_completed": "Conversão concluída!",
     "image_size": "Imagem: {width}x{height}",
     "tiles_generated": "Tiles gerados: {count}",
     "chr_size": "Tamanho do CHR: {size} bytes",
     "global_palette_used": "Paleta global usada",
-
     "error_problem_tiles": "Erro: a imagem possui tiles problemáticos.",
     "tile_problem": "coluna {col}, linha {row} -> {reason}",
     "color_line_with_count": "[{index}] {color} - {count} pixels",
     "color_line": "[{index}] {color}",
-
     "arg_description": "Ferramenta simples para converter PNG em CHR do NES.",
     "arg_analyze_help": "Analisa o PNG e mostra cores/tiles problemáticos.",
     "arg_convert_help": "Converte o PNG para CHR.",
@@ -48,10 +45,8 @@
     "tile_map_saved": "Mapa de tiles salvo em: {filename}",
     "arg_analyze_description": "Analisa uma imagem PNG antes da conversão para CHR. Mostra dimensões, quantidade de tiles, cores encontradas, paleta sugerida e tiles problemáticos.",
     "arg_convert_description": "Converte uma imagem PNG para o formato CHR do NES. Pode usar paleta automática, paleta fixa, substituição de cores, remoção de tiles duplicados e padding.",
-
     "help_commands_title": "comandos",
     "help_commands_description": "Comandos disponíveis",
-
     "help_examples_title": "Exemplos",
     "help_example_analyze": "Analisar uma imagem",
     "help_example_analyze_debug": "Analisar e gerar debug visual",
@@ -60,5 +55,13 @@
     "help_example_palette": "Converter usando paleta fixa",
     "help_example_replace": "Substituir uma cor durante a conversão",
     "help_example_dedupe": "Remover tiles duplicados e salvar mapa de remapeamento",
-    "help_example_lang": "Forçar idioma da interface"
+    "help_example_lang": "Forçar idioma da interface",
+    "arg_concat_help": "Concatena vários arquivos CHR em um único arquivo.",
+    "arg_concat_description": "Concatena arquivos CHR já gerados. Use arquivos sem padding como entrada e aplique --pad apenas no arquivo final.",
+    "arg_concat_files_help": "Arquivos CHR. O último argumento é o arquivo de saída.",
+    "error_concat_min_files": "Informe pelo menos um arquivo CHR de entrada e um arquivo CHR de saída.",
+    "concat_completed": "Concatenação concluída!",
+    "input_files_count": "Arquivos de entrada: {count}",
+    "tiles_input": "Tiles de entrada: {count}",
+    "output_file": "Arquivo de saída: {filename}"
 }

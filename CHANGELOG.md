@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ---
 
+## [1.2.0] - 2026-07-09
+
+### Added
+
+- New `concat` command to concatenate multiple CHR files.
+- Automatic creation of the output CHR file during concatenation.
+- `--pad` support during concatenation.
+- `--dedupe` support during concatenation.
+- Tile remapping export (`--tile-map`) during concatenation.
+- Completely redesigned command-line help (`--help`).
+- Usage examples included directly in the help output.
+- Detailed descriptions for all commands and arguments.
+
+### Improved
+
+- CHR bank generation workflow, allowing intermediate CHR files without padding and generating the final padded bank only in the last step.
+- Improved command-line interface organization.
+- Updated documentation.
+
 ## [1.1.0] - 2026-07-06
 
 ### Added

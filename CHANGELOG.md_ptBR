@@ -6,6 +6,25 @@ O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.
 
 ---
 
+## [1.2.0] - 2026-07-09
+
+### Adicionado
+
+- Novo comando `concat` para concatenar múltiplos arquivos CHR.
+- Suporte à criação automática do arquivo CHR de saída durante a concatenação.
+- Suporte a `--pad` durante a concatenação.
+- Suporte a `--dedupe` durante a concatenação.
+- Suporte à geração de mapa de remapeamento (`--tile-map`) durante a concatenação.
+- Ajuda da linha de comando (`--help`) completamente reformulada.
+- Exemplos de utilização diretamente no `--help`.
+- Descrições detalhadas para todos os comandos e parâmetros.
+
+### Melhorado
+
+- Fluxo de geração de bancos CHR, permitindo trabalhar com arquivos intermediários sem padding e gerar o banco final apenas no último passo.
+- Organização da interface de linha de comando.
+- Documentação atualizada.
+
 ## [1.1.0] - 2026-07-06
 
 ### Adicionado

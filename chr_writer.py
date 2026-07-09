@@ -129,3 +129,22 @@ def save_tile_map(path, tile_map):
     with open(path, "w", encoding="utf-8") as file:
         for old_index, new_index in tile_map.items():
             file.write(f"{old_index}={new_index}\n")
+
+def load_chr(path):
+    with open(path, "rb") as file:
+        data = bytearray(file.read())
+
+    if len(data) % 16 != 0:
+        raise ValueError(f"CHR inválido: {path} não tem tamanho múltiplo de 16 bytes.")
+
+    return data
+
+
+def concat_chr_files(input_paths):
+    output = bytearray()
+
+    for path in input_paths:
+        data = load_chr(path)
+        output.extend(data)
+
+    return output
